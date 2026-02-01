@@ -134,7 +134,10 @@ class SupabaseAuthService extends ChangeNotifier implements IAuthService {
     
     await _supabase.auth.signInWithOAuth(
       OAuthProvider.kakao,
-      redirectTo: kIsWeb ? null : 'com.sino.app.sino://login-callback/',
+      // Explicitly point to the GitHub Pages URL for web to ensure consistency
+      redirectTo: kIsWeb 
+          ? 'https://shukurillo0526.github.io/SINO/' 
+          : 'com.sino.app.sino://login-callback/',
     );
   }
   

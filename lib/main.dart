@@ -196,8 +196,9 @@ class SinoApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       
       // ---- Navigation ----
-      initialRoute: '/login',
+      initialRoute: '/', // Start at root
       routes: _buildRoutes(),
+      onUnknownRoute: _handleUnknownRoute,
     );
   }
 
@@ -208,6 +209,7 @@ class SinoApp extends StatelessWidget {
   Map<String, WidgetBuilder> _buildRoutes() {
     return {
       // ---- Authentication ----
+      '/': (_) => const LoginPage(), // Handle root path
       '/login': (_) => const LoginPage(),
       '/signup': (_) => const SignUpScreen(),
       
@@ -228,5 +230,12 @@ class SinoApp extends StatelessWidget {
       '/academics': (_) => const AcademicsScreen(),
       '/privacy': (_) => const PrivacyScreen(),
     };
+  }
+  
+  // Handle deep links or unknown routes (like OAuth callbacks) gracefully
+  Route<dynamic>? _handleUnknownRoute(RouteSettings settings) {
+    // If we land on a weird route from an OAuth redirect, just go to Login/Home
+    // The Supabase Auth listener will handle the actual session state
+    return MaterialPageRoute(builder: (_) => const LoginPage());
   }
 }
