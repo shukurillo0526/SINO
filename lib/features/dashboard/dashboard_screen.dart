@@ -259,7 +259,6 @@ class _HomeView extends StatelessWidget {
             ),
             child: SvgPicture.asset(
               'lib/assets/logo.svg',
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               height: 30,
               width: 30,
             ),
