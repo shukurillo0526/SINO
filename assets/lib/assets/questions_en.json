@@ -1,0 +1,302 @@
+[
+    {
+        "question": "What is 12 × 8?",
+        "options": [
+            "86",
+            "96",
+            "104",
+            "92"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "Solve: 15 + 27",
+        "options": [
+            "42",
+            "41",
+            "43",
+            "40"
+        ],
+        "correctIndex": 0
+    },
+    {
+        "question": "What is the capital of France?",
+        "options": [
+            "London",
+            "Berlin",
+            "Paris",
+            "Madrid"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "Which planet is known as the Red Planet?",
+        "options": [
+            "Venus",
+            "Mars",
+            "Jupiter",
+            "Saturn"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is 144 ÷ 12?",
+        "options": [
+            "10",
+            "11",
+            "12",
+            "13"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "Who wrote 'Romeo and Juliet'?",
+        "options": [
+            "Charles Dickens",
+            "William Shakespeare",
+            "Jane Austen",
+            "Mark Twain"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is the largest ocean on Earth?",
+        "options": [
+            "Atlantic Ocean",
+            "Indian Ocean",
+            "Arctic Ocean",
+            "Pacific Ocean"
+        ],
+        "correctIndex": 3
+    },
+    {
+        "question": "What is 7²?",
+        "options": [
+            "14",
+            "49",
+            "42",
+            "56"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "Which element has the chemical symbol 'O'?",
+        "options": [
+            "Gold",
+            "Oxygen",
+            "Silver",
+            "Iron"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is the smallest prime number?",
+        "options": [
+            "0",
+            "1",
+            "2",
+            "3"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "In which year did World War II end?",
+        "options": [
+            "1943",
+            "1944",
+            "1945",
+            "1946"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "What is the speed of light?",
+        "options": [
+            "300,000 km/s",
+            "150,000 km/s",
+            "450,000 km/s",
+            "600,000 km/s"
+        ],
+        "correctIndex": 0
+    },
+    {
+        "question": "Which continent is the Sahara Desert located in?",
+        "options": [
+            "Asia",
+            "Africa",
+            "Australia",
+            "South America"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is 25% of 200?",
+        "options": [
+            "25",
+            "50",
+            "75",
+            "100"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "Who painted the Mona Lisa?",
+        "options": [
+            "Vincent van Gogh",
+            "Pablo Picasso",
+            "Leonardo da Vinci",
+            "Michelangelo"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "What is the boiling point of water at sea level?",
+        "options": [
+            "90°C",
+            "100°C",
+            "110°C",
+            "120°C"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "Which is the longest river in the world?",
+        "options": [
+            "Amazon",
+            "Nile",
+            "Yangtze",
+            "Mississippi"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is the square root of 81?",
+        "options": [
+            "7",
+            "8",
+            "9",
+            "10"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "Which gas do plants absorb from the atmosphere?",
+        "options": [
+            "Oxygen",
+            "Nitrogen",
+            "Carbon Dioxide",
+            "Hydrogen"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "What is 3³?",
+        "options": [
+            "6",
+            "9",
+            "27",
+            "81"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "Who discovered penicillin?",
+        "options": [
+            "Marie Curie",
+            "Alexander Fleming",
+            "Louis Pasteur",
+            "Isaac Newton"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is the currency of Japan?",
+        "options": [
+            "Yuan",
+            "Won",
+            "Yen",
+            "Ringgit"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "How many sides does a hexagon have?",
+        "options": [
+            "5",
+            "6",
+            "7",
+            "8"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "Which planet is closest to the Sun?",
+        "options": [
+            "Venus",
+            "Earth",
+            "Mercury",
+            "Mars"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "What is 15 × 6?",
+        "options": [
+            "80",
+            "85",
+            "90",
+            "95"
+        ],
+        "correctIndex": 2
+    },
+    {
+        "question": "Who was the first person to walk on the Moon?",
+        "options": [
+            "Buzz Aldrin",
+            "Neil Armstrong",
+            "Yuri Gagarin",
+            "John Glenn"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is the chemical formula for water?",
+        "options": [
+            "H2O",
+            "CO2",
+            "O2",
+            "H2O2"
+        ],
+        "correctIndex": 0
+    },
+    {
+        "question": "Which country is known as the Land of the Rising Sun?",
+        "options": [
+            "China",
+            "Japan",
+            "Thailand",
+            "South Korea"
+        ],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is 100 - 37?",
+        "options": [
+            "63",
+            "62",
+            "64",
+            "61"
+        ],
+        "correctIndex": 0
+    },
+    {
+        "question": "Which organ pumps blood throughout the human body?",
+        "options": [
+            "Liver",
+            "Lungs",
+            "Heart",
+            "Kidney"
+        ],
+        "correctIndex": 2
+    }
+]
