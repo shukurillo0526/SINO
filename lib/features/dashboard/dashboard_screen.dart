@@ -257,7 +257,12 @@ class _HomeView extends StatelessWidget {
               color: Colors.white.withOpacity(0.2),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.pets, color: Colors.white, size: 30),
+            child: SvgPicture.asset(
+              'lib/assets/logo.svg',
+              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              height: 30,
+              width: 30,
+            ),
           ),
         ],
       ),
