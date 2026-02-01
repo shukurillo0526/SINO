@@ -265,11 +265,13 @@ class _HomeView extends StatelessWidget {
 
   Widget _buildMoodCard(BuildContext context) {
     final moodController = context.watch<MoodController>();
-    final history = moodController.moodHistory;
+    final history = moodController.recentEntries;
 
     // Convert history to FlSpots for the last 7 entries
     final spots = history.asMap().entries.map((e) {
-      return FlSpot(e.key.toDouble(), e.value.level.toDouble());
+      // Map sentiment (-1 to 1) to chart range (0 to 5)
+      final yValue = (e.value.sentimentScore + 1) * 2.5; 
+      return FlSpot(e.key.toDouble(), yValue);
     }).toList();
     
     // Fallback if empty
