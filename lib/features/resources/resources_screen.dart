@@ -1,42 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:ui';
+import 'dart:ui'; // For ImageFilter
 
 import '../../controllers/language_controller.dart';
-import 'breathing_screen.dart';
-// import 'meditation_screen.dart'; // Placeholder for future
+import '../games/games_screen.dart';
+import '../mindfulness/mindfulness_screen.dart';
+import '../academics/academics_screen.dart';
 
-class MindfulnessScreen extends StatelessWidget {
-  const MindfulnessScreen({super.key});
+class ResourcesScreen extends StatelessWidget {
+  const ResourcesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final lang = context.watch<LanguageController>();
-    
     // Premium Palette
+    final primaryColor = const Color(0xFF2D4A3E);
     final gradientColors = [
       const Color(0xFFE8F3E8), // Calm Sage
       const Color(0xFFF0FDFC), // Light Blue
     ];
 
+    final lang = context.watch<LanguageController>();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: Text(
-          lang.isEnglish ? 'Mindfulness' : '마음챙김',
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D4A3E)),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(color: Colors.white.withOpacity(0.5)),
-          ),
-        ),
-        iconTheme: const IconThemeData(color: Color(0xFF2D4A3E)),
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -51,37 +37,62 @@ class MindfulnessScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Text(
+                  'Explore',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2D4A3E),
+                  ),
+                ),
                 Text(
-                  lang.isEnglish ? 'Take a moment' : '잠시 쉬어가세요',
+                  lang.isEnglish ? 'Tools for your mind & grades' : '마음과 성적을 위한 도구들',
                   style: TextStyle(
                     fontSize: 16,
                     color: const Color(0xFF2D4A3E).withOpacity(0.7),
                   ),
                 ),
-                const SizedBox(height: 20),
-                _buildFeatureCard(
-                  context,
-                  title: lang.isEnglish ? 'Box Breathing' : '박스 호흡법',
-                  description: lang.isEnglish ? 'Deep focus and relaxation' : '깊은 집중과 이완',
-                  icon: Icons.air,
-                  color: const Color(0xFF4ECDC4),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const BreathingScreen()),
+                const SizedBox(height: 30),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _buildGlassCard(
+                        context,
+                        title: lang.isEnglish ? 'Mindfulness' : '마음챙김',
+                        subtitle: lang.isEnglish ? 'Meditation & Breathing' : '명상 및 호흡',
+                        icon: Icons.self_improvement,
+                        color: const Color(0xFF4ECDC4),
+                        onTap: () => Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (_) => const MindfulnessScreen())
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _buildGlassCard(
+                        context,
+                        title: lang.isEnglish ? 'Games' : '미니게임',
+                        subtitle: lang.isEnglish ? 'Stress busters & Fun' : '스트레스 해소 및 재미',
+                        icon: Icons.videogame_asset_outlined,
+                        color: const Color(0xFFFF6584),
+                        onTap: () => Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (_) => const GamesScreen())
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _buildGlassCard(
+                        context,
+                        title: lang.isEnglish ? 'Academics' : '학업',
+                        subtitle: lang.isEnglish ? 'Tasks & Timetables' : '할 일 및 시간표',
+                        icon: Icons.school_outlined,
+                        color: const Color(0xFF2D4A3E),
+                        onTap: () => Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (_) => const AcademicsScreen())
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 16),
-                _buildFeatureCard(
-                  context,
-                  title: lang.isEnglish ? 'Daily Journal' : '감정 일기',
-                  description: lang.isEnglish ? 'Track your thoughts' : '나의 생각 기록하기',
-                  icon: Icons.edit_note,
-                  color: const Color(0xFF8DC63F),
-                  onTap: () {
-                    // Navigate to Mood Screen or specific Journal screen 
-                    // Using mood route for now
-                    Navigator.pushNamed(context, '/mood');
-                  },
                 ),
               ],
             ),
@@ -91,9 +102,9 @@ class MindfulnessScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, {
+  Widget _buildGlassCard(BuildContext context, {
     required String title,
-    required String description,
+    required String subtitle,
     required IconData icon,
     required Color color,
     required VoidCallback onTap,
@@ -143,7 +154,7 @@ class MindfulnessScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        description,
+                        subtitle,
                         style: TextStyle(
                           fontSize: 14,
                           color: const Color(0xFF2D4A3E).withOpacity(0.6),
@@ -152,7 +163,7 @@ class MindfulnessScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios, size: 16, color: color.withOpacity(0.5)),
+                const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
               ],
             ),
           ),

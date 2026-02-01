@@ -1,22 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'dart:ui'; // For ImageFilter
+import 'dart:ui'; 
 
+import '../../controllers/language_controller.dart';
 import '../../services/companion_service.dart';
 import '../../controllers/mood_controller.dart';
-import '../../controllers/language_controller.dart';
-import '../character/character_screen.dart';
 
-class DashboardScreen extends StatelessWidget {
+// Screens
+import '../character/character_screen.dart';
+import '../resources/resources_screen.dart';
+import '../../screens/account.dart'; 
+
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
+    const _HomeView(),
+    const CharacterScreen(),
+    const ResourcesScreen(),
+    const AccountScreen(), // Using AccountScreen as Profile tab
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    // Premium Palette
-    final primaryColor = const Color(0xFF2D4A3E); // Deep Forest
-    final surfaceColor = const Color(0xFFE8F3E8); // Calm Sage
+    // Premium Palette for Nav Bar
+    final primaryColor = const Color(0xFF2D4A3E); 
+    
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: BottomNavigationBar(
+              currentIndex: _currentIndex,
+              onTap: (index) => setState(() => _currentIndex = index),
+              selectedItemColor: primaryColor,
+              unselectedItemColor: Colors.grey,
+              backgroundColor: Colors.white.withOpacity(0.9), // Glassy look
+              type: BottomNavigationBarType.fixed,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded), label: 'Home'),
+                BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Chat'),
+                BottomNavigationBarItem(icon: Icon(Icons.explore_outlined), activeIcon: Icon(Icons.explore), label: 'Explore'),
+                BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// HOME VIEW (BENTO GRID)
+// ---------------------------------------------------------------------------
+
+class _HomeView extends StatelessWidget {
+  const _HomeView();
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = const Color(0xFF2D4A3E);
+    final surfaceColor = const Color(0xFFE8F3E8);
     
     return Scaffold(
       backgroundColor: surfaceColor,
@@ -29,38 +100,62 @@ class DashboardScreen extends StatelessWidget {
               _buildHeader(context, primaryColor),
               const SizedBox(height: 20),
               Expanded(
-                child: StaggeredGrid.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  children: [
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 2,
-                      mainAxisCellCount: 1,
-                      child: _buildWelcomeCard(context),
-                    ),
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 1,
-                      mainAxisCellCount: 1,
-                      child: _buildMoodCard(context),
-                    ),
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 1,
-                      mainAxisCellCount: 1,
-                      child: _buildQuickActionCard(
-                        context, 
-                        title: 'Chat', 
-                        icon: Icons.chat_bubble_outline, 
-                        color: const Color(0xFFFF9E9E),
-                        onTap: () => Navigator.pushNamed(context, '/character'), // Assuming route exists or replace
+                child: SingleChildScrollView(
+                  child: StaggeredGrid.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    children: [
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 2,
+                        mainAxisCellCount: 1,
+                        child: _buildWelcomeCard(context),
                       ),
-                    ),
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 2,
-                      mainAxisCellCount: 1,
-                      child: _buildTaskSummaryCard(context),
-                    ),
-                  ],
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 1,
+                        mainAxisCellCount: 1,
+                        child: _buildMoodCard(context),
+                      ),
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 1,
+                        mainAxisCellCount: 1,
+                        child: _buildQuickActionCard(
+                          context, 
+                          title: 'Breathe', 
+                          icon: Icons.air, 
+                          color: const Color(0xFF4ECDC4),
+                          onTap: () => Navigator.pushNamed(context, '/mindfulness'),
+                        ),
+                      ),
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 1,
+                        mainAxisCellCount: 1,
+                        child: _buildQuickActionCard(
+                          context, 
+                          title: 'Play', 
+                          icon: Icons.videogame_asset_outlined, 
+                          color: const Color(0xFFFF6584),
+                          onTap: () => Navigator.pushNamed(context, '/games'),
+                        ),
+                      ),
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 1,
+                        mainAxisCellCount: 1,
+                        child: _buildQuickActionCard(
+                          context, 
+                          title: 'Study', 
+                          icon: Icons.school_outlined, 
+                          color: const Color(0xFFFFC75F),
+                          onTap: () => Navigator.pushNamed(context, '/academics'),
+                        ),
+                      ),
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 2,
+                        mainAxisCellCount: 1,
+                        child: _buildTaskSummaryCard(context),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -79,7 +174,7 @@ class DashboardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              lang.isEnglish ? 'Good Morning,' : '좋은 아침,',
+              lang.isEnglish ? 'Welcome back,' : '환영합니다,',
               style: TextStyle(fontSize: 16, color: color.withOpacity(0.7)),
             ),
             const Text(
@@ -87,10 +182,6 @@ class DashboardScreen extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF2D4A3E)),
             ),
           ],
-        ),
-        CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Icon(Icons.person, color: color),
         ),
       ],
     );
@@ -134,35 +225,17 @@ class DashboardScreen extends StatelessWidget {
                   'Your $role is ready to talk.',
                   style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 14),
                 ),
-                const SizedBox(height: 12),
-                ElevatedButton(
-                  onPressed: () {
-                    // Navigate to chat
-                     Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const CharacterScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF2D4A3E),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  ),
-                  child: const Text('Start Chat'),
-                ),
               ],
             ),
           ),
-          // Placeholder for 3D/Lottie element
           Container(
-            height: 80,
-            width: 80,
+            height: 60,
+            width: 60,
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.pets, color: Colors.white, size: 40),
+            child: const Icon(Icons.pets, color: Colors.white, size: 30),
           ),
         ],
       ),
@@ -199,13 +272,13 @@ class DashboardScreen extends StatelessWidget {
                   LineChartBarData(
                     spots: const [
                       FlSpot(0, 3),
-                      FlSpot(1, 1),
-                      FlSpot(2, 4),
-                      FlSpot(3, 3),
-                      FlSpot(4, 5),
+                      FlSpot(1, 4),
+                      FlSpot(2, 3),
+                      FlSpot(3, 5),
+                      FlSpot(4, 4),
                     ],
                     isCurved: true,
-                    color: const Color(0xFFFF9E9E), // Soft Coral
+                    color: const Color(0xFFFF9E9E),
                     barWidth: 3,
                     dotData: FlDotData(show: false),
                     belowBarData: BarAreaData(
@@ -242,12 +315,12 @@ class DashboardScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 24,
+              radius: 20,
               backgroundColor: color.withOpacity(0.2),
-              child: Icon(icon, color: color),
+              child: Icon(icon, color: color, size: 20),
             ),
-            const SizedBox(height: 12),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
           ],
         ),
       ),
@@ -275,22 +348,13 @@ class DashboardScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Daily Goal', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8F3E8),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text('2/5 Done', style: TextStyle(fontSize: 12, color: Color(0xFF2D4A3E), fontWeight: FontWeight.bold)),
-              ),
+              const Text('2/5', style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.bold)),
             ],
           ),
-          const SizedBox(height: 16),
-          _buildTaskItem('Mindfulness moment', true),
+          const SizedBox(height: 12),
+          _buildTaskItem('Mindfulness', true),
           const SizedBox(height: 8),
-          _buildTaskItem('Review Math Flashcards', false),
-          const SizedBox(height: 8),
-          _buildTaskItem('Journal Entry', false),
+          _buildTaskItem('Math Review', false),
         ],
       ),
     );
@@ -302,7 +366,7 @@ class DashboardScreen extends StatelessWidget {
         Icon(
           isDone ? Icons.check_circle : Icons.circle_outlined,
           color: isDone ? const Color(0xFF2D4A3E) : Colors.grey,
-          size: 20,
+          size: 18,
         ),
         const SizedBox(width: 8),
         Text(
@@ -310,6 +374,7 @@ class DashboardScreen extends StatelessWidget {
           style: TextStyle(
             decoration: isDone ? TextDecoration.lineThrough : null,
             color: isDone ? Colors.grey : Colors.black87,
+            fontSize: 14,
           ),
         ),
       ],
