@@ -1,0 +1,24 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Sage Green Rounded Square -->
+  <rect x="32" y="32" width="448" height="448" rx="128" fill="#2D4A3E"/>
+  
+  <!-- Fox Head Shape -->
+  <g transform="translate(106, 120) scale(0.6)">
+    <!-- Main Face: Coral -->
+    <path d="M250 450 L50 150 L150 50 L250 150 L350 50 L450 150 Z" fill="#FF6584"/>
+    
+    <!-- Cheeks/Snout: White -->
+    <path d="M250 450 L150 250 H350 Z" fill="#FFFFFF"/>
+    
+    <!-- Nose: Dark -->
+    <circle cx="250" cy="450" r="30" fill="#2D4A3E"/>
+    
+    <!-- Eyes: Dark -->
+    <circle cx="170" cy="220" r="25" fill="#2D4A3E"/>
+    <circle cx="330" cy="220" r="25" fill="#2D4A3E"/>
+    
+    <!-- Ear Details: Lighter Coral -->
+    <path d="M150 50 L100 120 L180 120 Z" fill="#FF8FA3"/>
+    <path d="M350 50 L320 120 L400 120 Z" fill="#FF8FA3"/>
+  </g>
+</svg>
