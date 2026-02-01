@@ -21,6 +21,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Create dummy .env file
+        run: echo "SUPABASE_URL=placeholder" > .env
+
+
       - name: Build Web
         # Set base href to repository name for GitHub Pages
         run: flutter build web --base-href "/SINO/" --release
