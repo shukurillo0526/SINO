@@ -83,7 +83,10 @@ class GamesScreen extends StatelessWidget {
                         color: const Color(0xFFFFC75F),
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const QuizScreen()),
+                          MaterialPageRoute(builder: (_) => const QuizScreen(
+                            title: 'Emotion Quiz',
+                            isPeerClash: false,
+                          )),
                         ),
                       ),
                     ],
