@@ -12,6 +12,9 @@ import '../../controllers/mood_controller.dart';
 import '../character/character_screen.dart';
 import '../resources/resources_screen.dart';
 import '../../screens/account.dart'; 
+import '../../services/academics_service.dart';
+import '../../services/gemini_service.dart'; // For Daily Quote
+import '../../models/academics_models.dart'; // For TodoItem 
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -167,21 +170,39 @@ class _HomeView extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context, Color color) {
     final lang = context.watch<LanguageController>();
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              lang.isEnglish ? 'Welcome back,' : '환영합니다,',
-              style: TextStyle(fontSize: 16, color: color.withOpacity(0.7)),
-            ),
-            const Text(
-              'Student', // TODO: Get user name
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF2D4A3E)),
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                lang.isEnglish ? 'Welcome back,' : '환영합니다,',
+                style: TextStyle(fontSize: 16, color: color.withOpacity(0.7)),
+              ),
+              const Text(
+                'Student', 
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF2D4A3E)),
+              ),
+              const SizedBox(height: 8),
+              FutureBuilder<String>(
+                future: GeminiService().getDailyQuote(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const SizedBox();
+                  return Text(
+                    '"${snapshot.data}"',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 14,
+                      color: color.withOpacity(0.6),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -243,6 +264,19 @@ class _HomeView extends StatelessWidget {
   }
 
   Widget _buildMoodCard(BuildContext context) {
+    final moodController = context.watch<MoodController>();
+    final history = moodController.moodHistory;
+
+    // Convert history to FlSpots for the last 7 entries
+    final spots = history.asMap().entries.map((e) {
+      return FlSpot(e.key.toDouble(), e.value.level.toDouble());
+    }).toList();
+    
+    // Fallback if empty
+    final displaySpots = spots.isNotEmpty 
+      ? spots 
+      : const [FlSpot(0, 3), FlSpot(1, 4), FlSpot(2, 3), FlSpot(3, 3)];
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -270,13 +304,7 @@ class _HomeView extends StatelessWidget {
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: const [
-                      FlSpot(0, 3),
-                      FlSpot(1, 4),
-                      FlSpot(2, 3),
-                      FlSpot(3, 5),
-                      FlSpot(4, 4),
-                    ],
+                    spots: displaySpots,
                     isCurved: true,
                     color: const Color(0xFFFF9E9E),
                     barWidth: 3,
@@ -328,6 +356,11 @@ class _HomeView extends StatelessWidget {
   }
 
   Widget _buildTaskSummaryCard(BuildContext context) {
+    final academics = context.watch<AcademicsService>();
+    final todos = academics.incompleteTodos.take(3).toList(); // Show top 3
+    final doneCount = academics.completedTodos.length;
+    final totalCount = academics.todos.length;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -347,14 +380,18 @@ class _HomeView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Daily Goal', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              const Text('2/5', style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.bold)),
+              const Text('Tasks', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              Text('$doneCount/$totalCount', style: const TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.bold)),
             ],
           ),
           const SizedBox(height: 12),
-          _buildTaskItem('Mindfulness', true),
-          const SizedBox(height: 8),
-          _buildTaskItem('Math Review', false),
+          if (todos.isEmpty)
+            const Text("No pending tasks!", style: TextStyle(color: Colors.grey, fontSize: 12))
+          else
+            ...todos.map((t) => Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: _buildTaskItem(t.title, t.isCompleted),
+            )),
         ],
       ),
     );

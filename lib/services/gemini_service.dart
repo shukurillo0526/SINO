@@ -234,6 +234,46 @@ RULES:
       client.close();
     }
   }
+  
+  /// Fetches a short motivational quote from the AI.
+  Future<String> getDailyQuote({CompanionModel? companion}) async {
+    if (!_initialized) return "Keep going! You're doing great.";
+
+    final client = http.Client();
+    final name = companion?.name ?? 'SINO';
+    
+    try {
+      final response = await client.post(
+        Uri.parse(_openRouterUrl),
+        headers: {
+          'Authorization': 'Bearer $_apiKey',
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://sino-app.com',
+          'X-Title': 'SINO',
+        },
+        body: jsonEncode({
+          'model': _model,
+          'messages': [
+            {'role': 'system', 'content': 'You are $name, a supportive companion. Provide a SHORT, one-sentence motivational quote for a student. No hashtags. Just the text.'},
+            {'role': 'user', 'content': 'Give me a quote.'}
+          ],
+          'max_tokens': 50,
+          'temperature': 0.8,
+        }),
+      ).timeout(_timeout);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        var quote = data['choices']?[0]?['message']?['content'] ?? "Believe in yourself!";
+        return quote.replaceAll('"', ''); // Remove quotes if added by AI
+      }
+    } catch (e) {
+      debugPrint('Quote fetch error: $e');
+    } finally {
+      client.close();
+    }
+    return "Every step counts!";
+  }
 
   /// Builds a context-aware message by injecting conversation memory.
   Future<String> _buildContextualMessage(String message, {String? companionId}) async {

@@ -41,6 +41,7 @@ import 'controllers/theme_controller.dart';
 import 'controllers/rewards_controller.dart';
 import 'controllers/mindfulness_controller.dart';
 import 'controllers/consent_controller.dart';
+import 'core/theme/app_theme.dart';
 
 // ============================================================
 // SERVICES (Business Logic)
@@ -168,73 +169,12 @@ class SinoApp extends StatelessWidget {
       
       // ---- Theme Configuration ----
       themeMode: themeController.themeMode,
-      theme: _buildLightTheme(),
-      darkTheme: _buildDarkTheme(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       
       // ---- Navigation ----
       initialRoute: '/login',
       routes: _buildRoutes(),
-    );
-  }
-
-  /// Builds the light theme for the application.
-  /// 
-  /// Uses SINO's brand colors:
-  /// - Primary: Light Green (#8DC63F)
-  /// - Secondary: Dark Green (#2B6653)
-  ThemeData _buildLightTheme() {
-    const primaryColor = Color(0xFF8DC63F);
-    const secondaryColor = Color(0xFF2B6653);
-    
-    return ThemeData(
-      brightness: Brightness.light,
-      fontFamily: 'Roboto',
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        brightness: Brightness.light,
-        primary: primaryColor,
-        secondary: secondaryColor,
-        surface: Colors.white,
-        onPrimary: Colors.white,
-      ),
-      scaffoldBackgroundColor: Colors.white,
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  /// Builds the dark theme for the application.
-  /// 
-  /// Uses complementary colors for dark mode:
-  /// - Primary: Blue (#3F8DC6)
-  /// - Secondary: Dark Blue (#2B5366)
-  ThemeData _buildDarkTheme() {
-    const primaryColor = Color(0xFF3F8DC6);
-    const secondaryColor = Color(0xFF2B5366);
-    
-    return ThemeData(
-      brightness: Brightness.dark,
-      fontFamily: 'Roboto',
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        brightness: Brightness.dark,
-        primary: primaryColor,
-        secondary: secondaryColor,
-        surface: const Color(0xFF1E1E1E),
-      ),
-      scaffoldBackgroundColor: const Color(0xFF121212),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.black,
-        ),
-      ),
     );
   }
 
