@@ -139,9 +139,20 @@ Future<void> _initializeServices() async {
     
     // Initialize Supabase
     // Uses provided keys as fallback for immediate prototype functionality
+    String supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
+    String supabaseKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+
+    // Fix for CI/CD: If .env contains "placeholder" (from GitHub Actions), ignore it and use real keys
+    if (supabaseUrl.isEmpty || supabaseUrl == 'placeholder') {
+      supabaseUrl = 'https://kvmoirajybmjyrrgdsld.supabase.co';
+    }
+    if (supabaseKey.isEmpty || supabaseKey == 'placeholder') {
+      supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2bW9pcmFqeWJtanlycmdkc2xkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NDg4ODQsImV4cCI6MjA4NDEyNDg4NH0.Fcl7DWDvrV_vn1OMKtgSHtjK9b7HMQYtyjGDzA4Igd8';
+    }
+
     await Supabase.initialize(
-      url: dotenv.env['SUPABASE_URL'] ?? 'https://kvmoirajybmjyrrgdsld.supabase.co',
-      anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2bW9pcmFqeWJtanlycmdkc2xkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NDg4ODQsImV4cCI6MjA4NDEyNDg4NH0.Fcl7DWDvrV_vn1OMKtgSHtjK9b7HMQYtyjGDzA4Igd8',
+      url: supabaseUrl,
+      anonKey: supabaseKey,
     );
 
     // Initialize Kakao SDK (Mock/Wrapper depending on platform)
