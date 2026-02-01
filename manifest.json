@@ -10,9 +10,9 @@
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "logo.svg",
+            "src": "logo.png",
             "sizes": "512x512",
-            "type": "image/svg+xml"
+            "type": "image/png"
         },
         {
             "src": "icons/Icon-192.png",
