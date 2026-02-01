@@ -130,17 +130,29 @@ void main() async {
 /// - Initializing Supabase client for backend services
 Future<void> _initializeServices() async {
   try {
-    // Load environment variables
-    await dotenv.load(fileName: ".env");
+    // Load environment variables if file exists
+    try {
+      await dotenv.load(fileName: ".env");
+    } catch (e) {
+      debugPrint("ℹ️ No .env file found, using hardcoded fallback keys (Prototype Mode)");
+    }
     
-    // Initialize Supabase with credentials from .env
+    // Initialize Supabase
+    // Uses provided keys as fallback for immediate prototype functionality
     await Supabase.initialize(
-      url: dotenv.env['SUPABASE_URL'] ?? '',
-      anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+      url: dotenv.env['SUPABASE_URL'] ?? 'https://kvmoirajybmjyrrgdsld.supabase.co',
+      anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2bW9pcmFqeWJtanlycmdkc2xkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NDg4ODQsImV4cCI6MjA4NDEyNDg4NH0.Fcl7DWDvrV_vn1OMKtgSHtjK9b7HMQYtyjGDzA4Igd8',
     );
+
+    // Initialize Kakao SDK (Mock/Wrapper depending on platform)
+    // Note: Actual Kakao initialization often happens in native code or via a specific plugin 
+    // This is where you would call KakaoSdk.init if using packages like kakao_flutter_sdk
+    // KakaoSdk.init(
+    //   nativeAppKey: 'a6c0a7012bf9e9aca720e86f291124f3',
+    //   javaScriptAppKey: '385d014009a45fb3e923b2974b6ec7bd',
+    // );
+    
   } catch (e) {
-    // Log initialization errors but don't crash the app
-    // Guest mode will still work without Supabase
     debugPrint("⚠️ Service initialization error: $e");
   }
 }
