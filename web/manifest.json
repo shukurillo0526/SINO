@@ -1,11 +1,11 @@
 {
-    "name": "sino",
-    "short_name": "sino",
+    "name": "SINO - Student Companion",
+    "short_name": "SINO",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#E8F3E8",
+    "theme_color": "#2D4A3E",
+    "description": "Your AI-powered mental health companion.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
